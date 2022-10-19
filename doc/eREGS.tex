@@ -1,0 +1,157 @@
+% !TEX encoding = UTF-8 Unicode
+\documentclass{article}
+\usepackage[utf8]{inputenc}   % Umlaute automatisch übernehmen
+\usepackage{listings}   % für Codelistings
+\usepackage{color}   % für das Syntaxhighlighting
+\usepackage{graphicx}   % um Bilder einzufügen
+\usepackage[colorlinks=true]{hyperref}   % Um Hyperlinks zu unterstützen (farbige Links als Option)
+\usepackage{url}   % um url in footnotes formatiert anzuzeigen
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+ 
+\lstset{ %
+  backgroundcolor=\color{white},   % Hintergrundfarbe
+  basicstyle=\ttfamily\scriptsize,   % Schriftgröße für den Code
+  breakatwhitespace=false,   % autom. Zeileneinbruch bei Leerzeichen deaktivieren 
+  breaklines=true,   % autom. Zeilenumbruch
+  captionpos=b,   % caption-position = bottom
+  commentstyle=\color{mygreen},   % Kommentarstil
+  escapeinside={\%*}{*)},   % Falls LaTex innerhalb des Codes verwendet werden soll
+  extendedchars=true,   % um mittels lstlisting auch utf-8 Dateien und Strings lesen zu können
+  literate={Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1 {ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1 {ß}{{\ss}}1, % um mittels lstlisting auch utf-8 Dateien und Strings lesen zu können
+  frame=single,   % Rahmen um den Code packen
+  inputencoding=utf8,
+  keepspaces=true,   % Leerzeichen im Code beibehalten, nützlich für vorh. Einrückungen
+  keywordstyle=\color{blue},   % Stil der Schlüsselwörter
+  language=C,   % Programmiersprache festlegen
+  numbers=left,   % Zeilennummer links ausgeben (none, left, right)
+  numbersep=5pt,   % Abstand der Zeilennummern zum Code
+  numberstyle=\tiny\color{mygray},   % Stil der Zeilennummern
+  rulecolor=\color{black},
+  showspaces=false,
+  showstringspaces=false,          
+  showtabs=false,         
+  stepnumber=2,  
+  stringstyle=\color{mymauve},   % string literal stil
+  tabsize=2,   % Standardgröße der Tabs =  2 Leerzeichen
+  title=\lstname   % Dateinamen der inkludierten Dateien mit \lstinputlisting zeigen 
+}
+
+\begin{document}
+
+\title{Stackmaschine eREGS}
+\author{Jeff Wagner}
+\maketitle
+
+\begin{abstract}
+Erstellen einer Sprache für einen Stackautomaten\footnote{\url{https://de.wikipedia.org/wiki/Kellerautomat}} und eines in C geschriebenen Interpreters
+\end{abstract}
+
+\section{Vorwort}
+\label{sec:vorwort}
+Es wird eine Sprache, \textit{"eREGS"} genannt, entworfen.\\ 
+Des Weiteren wird mittels der Programmiersprache C und den Scanner- und Parsergeneratoren \textit{"flex"}\footnote{\url{https://de.wikipedia.org/wiki/Lex_(Informatik)}} respektive \textit{"yacc/bison"}\footnote{\url{https://de.wikipedia.org/wiki/Yacc}} ein Programm entworfen, 
+welches eine Eingabe-Code-Datei interpretiert und ausführt.\\
+Es wird \textbf{kein} Ausgabemodul geschrieben, welches z.B. den Code für eine spezifische Prozessorarchitektur übersetzt, auf derer das Kompilat einzig auszuführen wäre.
+\\\\
+Bevor es in Abschnitt~\ref{sec:eregsLang} ab Seite \pageref{sec:eregsLang} mit einer detaillierten Erläuterung der Sprache weitergeht, wird im Folgenden noch das 
+Code-Layout~\ref{sec:codelayout} und die Inbetriebnahme 
+des Projektes~\ref{sec:programmablauf} vorgestellt.
+\newpage
+
+\section{Einleitung}
+\label{sec:einleitung}
+Das Programm ist nach folgender Konvention nur von der Kommandozeile auszuführen:
+\paragraph{Aufruf (Linux/MAC): } ./eregs Code-Eingabedatei
+\paragraph{Aufruf (Windows): } eregs.exe Code-Eingabedatei 
+
+\hfill\break
+\subsection{Code-Layout}
+\label{sec:codelayout}
+Das Projekt hat folgenden Aufbau:\\
+\\
+\paragraph{bin/}\hspace{4em}Ordner mit dem von der MAKEFILE erstelltem Programm
+\paragraph{doc/}\hspace{4em}LaTeX Quellcode und PDF mit dieser Dokumentation
+\paragraph{examples/}\hspace{1em}Beispielprogramme in der "eRegs" Sprache
+\paragraph{main.l}\hspace{3em}Programm-Einstiegspunkt und Scanner-Definition
+\paragraph{makefile}\hspace{2em}Automatische Programmerzeugung mit "make" tool
+\paragraph{parser.y}\hspace{2em}Parser und Interpreter-Implementierung
+\\
+\subsection{Kompilierung \& Programmablauf}
+\label{sec:programmablauf}
+Zum Kompilieren genügt es, mit der Kommandozeile in das Verzeichnis zu gehen, welches die "makefile" beinhaltet (also das Stamm-Projektverzeichnis) und \textit{\textbf{make}} einzugeben. Anhand dessen wird bei erfolgreicher Kompilierung das Programm im \textit{\textbf{bin}}-Ordner erzeugt.\\
+Um ein in "eRegs" geschriebenes Programm zu starten, muss der Interpreter mit der Code-Datei als Argument von der Kommandozeile gestartet werden.\\
+Siehe dazu Abschnitt~\ref{sec:einleitung}.
+\\\\
+
+\section{Die Sprache eREGS}
+\label{sec:eregsLang}
+Die Sprache "eRegs" unterstützt arithmetische Operationen sowie Verzweigungen und Schleifen.\\
+In der ALPHA werden momentan bis zu 32 Register (quasi Variablen) und 999 Sprungmarken (für Verzweigungen und Schleifen) unterstützt.\\
+Der Stack kann ebenso simultan maximal 999 Werte zwischenspeichern.\\
+Des Weiteren werden innerhalb des Quelltextes Kommentare\\ im C Stil (\textit{\textbf{//}} für Einzeilige Kommentare und \textit{\textbf{/* ... */}} für Mehrzeilige Kommentare) unterstützt.\\\\
+Der genaue Befehlssatz umfasst:\\\\
+
+\begin{tabular}{|c|c|}\hline
+   \textbf{push} & Legt Element auf die Spitze des Stacks \\ \hline
+   \textbf{pop} & Holt oberstes Element vom Stack \\ \hline
+   \textbf{add} & Holt die 2 obersten Elemente vom Stack, addiert diese und legt das Ergebnis auf den Stack \\ \hline
+   \textbf{sub} & Wie "add", nur für Subtraktion \\ \hline
+   \textbf{mul} & Wie "add", nur für Multiplikation \\ \hline
+   \textbf{div} & Wie "add", nur für Division (prüft Division mit Null) \\ \hline
+   \textbf{cmpl} & Prüft die 2 obersten Elemente (setzt 1, falls Arg1 $<$  Arg2), 0 ansonten \\ \hline
+   \textbf{cmpg} & Prüft die 2 obersten Elemente (setzt 1, falls Arg1 $>$  Arg2), 0 ansonten  \\ \hline         
+   \textbf{cmple} & Prüft die 2 obersten Elemente (setzt 1, falls Arg1 $<=$ Arg2), 0 ansonten  \\ \hline        
+   \textbf{cmpge} & Prüft die 2 obersten Elemente (setzt 1, falls Arg1 $>=$  Arg2), 0 ansonten  \\ \hline 
+   \textbf{cmpeq} & Prüft die 2 obersten Elemente (setzt 1, falls Arg1 $==$  Arg2), 0 ansonten  \\ \hline      
+   \textbf{cmpne} & Prüft die 2 obersten Elemente (setzt 1, falls Arg1 $!=$  Arg2), 0 ansonten  \\ \hline      
+   \textbf{print} & Holt das oberste Element vom Stack und gibt es auf der Konsole aus \\ \hline       
+   \textbf{jmp} & Unbedingter Sprung zu Sprungmarke \textbf{L}\textit{xxx}  \\ \hline         
+   \textbf{jfalse} & Bedingter Sprung zu Sprungmarke \textbf{L}\textit{xxx} (Prüft Stack) \\ \hline
+   \textbf{L} & Definition einer Sprungmarke, z.B. \textbf{L}\textit{1}:  \\ \hline           
+   \textbf{r} & Definition eines Registers, z.B. \textbf{r}\textit{1} \\ \hline
+   \textbf{shl} & Binärer \textit{Linksshift} um \textit{n} Stellen ($n * 2^n$) \\ \hline           
+   \textbf{shr} & Binärer \textit{Rechtsshift} um \textit{n} Stellen ($n / 2^n$) \\ \hline         
+   \textbf{rol} & Binäre \textit{Linksrotation} \\ \hline          
+   \textbf{ror} & Binäre \textit{Rechtsrotation} \\ \hline
+   \textbf{not} & Binäre \textit{Negation} \\ \hline
+   \textbf{and} & Binäres \textit{UND} \\ \hline 
+   \textbf{xor} & Binäres \textit{Exklusiv-ODER} \\ \hline		
+   \textbf{mod} & Modulo Restoperator \\ \hline
+\end{tabular}
+\\\\
+\\Genug der Theorie, in Abschnitt~\ref{sec:examples} geht es nun an ein paar Beispiele.\\
+Eine Definition der Grammatik der Sprache WIRD NOCH NACHGEREICHT...\\
+
+\section{Programmbeispiele}
+\label{sec:examples}
+\subsection{Do-While-Schleife}
+% Beginn des Code-Blocks
+\lstinputlisting{../examples/example1.r}
+
+\subsection{Additionsbeispiel}
+% Beginn des Code-Blocks
+\lstinputlisting{../examples/example2.r}
+
+\newpage
+\subsection{Berechnung einer mathematischen Reihe}
+% Beginn des Code-Blocks
+\lstinputlisting{../examples/example3.r}
+\newpage
+\subsection{Berechnung der Fakultät $n!$}
+% Beginn des Code-Blocks
+\lstinputlisting{../examples/example5.r}
+\newpage
+\subsection{Shift Beispiele}
+% Beginn des Code-Blocks
+\lstinputlisting{../examples/example6.r}
+\newpage
+\subsection{Berechnung des Durchschnitts 2er Zahlen}
+% Beginn des Code-Blocks
+\lstinputlisting{../examples/example9.r}
+
+Für weitere \textit{eventuell vorhandene} Beispiele siehe das \textit{\textbf{examples}}-Verzeichnis.
+
+\end{document}
