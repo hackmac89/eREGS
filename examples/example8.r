@@ -1,3 +1,6 @@
+/*
+	This example calculates the checksum of a given number.
+*/
 	push $12345678
 	pop r1
 	push $0

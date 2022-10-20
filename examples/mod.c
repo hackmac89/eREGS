@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// berechne Quersumme rekursiv
+// calculate checksum recursive
 int qSumRecursive(int val) {
 	if(val > 0) 
 		return ((val % 10) + qSumRecursive(val/10));
@@ -9,7 +9,7 @@ int qSumRecursive(int val) {
 		return 0;
 }
 
-// berechne Quersumme iterativ (wie wir später in "example8.r" umsetzen werden)
+// calculate checksum iterative (like we do it later in "example8.r")
 int qSumIterative(int val) {
 	int tmp = val % 10;
 	while((val /= 10) > 0) {

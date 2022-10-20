@@ -12,12 +12,12 @@ The instruction set consists of the following instructions:
 | sub | Same as for "add", but performs subtraction |
 | mul | Same as for "add", but performs multiplication |
 | div | Same as for "add", but performs division (checks for division by 0) |
-| cmpl | Checks 2 top most stack elements (true, if Arg1 $<$  Arg2, 0 otherwise) |
-| cmpg | Checks 2 top most stack elements (true, if Arg1 $>$  Arg2, 0 otherwise) |
-| cmple | Checks 2 top most stack elements (true, if Arg1 $<=$  Arg2, 0 otherwise) |
-| cmpge | Checks 2 top most stack elements (true, if Arg1 $>=$  Arg2, 0 otherwise) |
-| cmpeq | Checks 2 top most stack elements (true, if Arg1 $==$  Arg2, 0 otherwise) |
-| cmpne | Checks 2 top most stack elements (true, if Arg1 $!=$  Arg2, 0 otherwise) |
+| cmpl | Checks 2 top most stack elements (true, if Arg1 < Arg2, 0 otherwise) |
+| cmpg | Checks 2 top most stack elements (true, if Arg1 > Arg2, 0 otherwise) |
+| cmple | Checks 2 top most stack elements (true, if Arg1 <= Arg2, 0 otherwise) |
+| cmpge | Checks 2 top most stack elements (true, if Arg1 >= Arg2, 0 otherwise) |
+| cmpeq | Checks 2 top most stack elements (true, if Arg1 == Arg2, 0 otherwise) |
+| cmpne | Checks 2 top most stack elements (true, if Arg1 != Arg2, 0 otherwise) |
 | print | Pops top element from stack and prints its value |
 | jmp | Unconditional jump to label |
 | jfalse | Conditional jump to label |
@@ -32,7 +32,7 @@ The instruction set consists of the following instructions:
 | xor | Binary Exclusive Or |
 | mod | Modulo |
 
-For a detailed description on _eREGS_ you may check the documentaion (german only) located in the [doc](./doc) directory.
+For a detailed description on _eREGS_ you may check the documentation located in the [doc](./doc) directory (german only).
 
 ---
 
@@ -62,7 +62,7 @@ A "eREGS" source code may use up to __32 registers__ and __999 labels__ (jump ma
 
 C commentary style `// for single line comments` and `/* for multiline comments */` are also supported.
 
-The following example shows how to compute the average of the two numbers _22_ and _48_.
+The following example shows how to compute the average of the two numbers _22_ and _48_ __in a not so obvious way__ 😈.
 
 <!-- See https://github.com/github/linguist/blob/master/lib/linguist/languages.yml for markdown syntax highlighting syntax -->
 ```Assembly

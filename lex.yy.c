@@ -1982,7 +1982,7 @@ void yyfree (void * ptr )
 
 
 
-// KANN SO NATÜRLICH NICHT GELASSEN WERDEN ;-)
+// Why did i leave this here again !?
 void parseComment(void) {
     char c = input();
     while(1){
@@ -1996,14 +1996,14 @@ void parseComment(void) {
 int main(int argc, char **argv)
 {
     if( argc != 2 ){
-        printf("[!] Unzulässige Zahl an Parametern\n");
-        printf("USAGE: ./regs <EINGABEDATEI>\n");
+        printf("[!] Not enough parameters\n");
+        printf("USAGE: ./regs <eREGS CODE INPUT FILE>\n");
         exit(1);
     }
     if( (yyin = fopen(argv[1], "r")) != NULL ) {
         yyparse();
     } else {
-        printf("[!] FEHLER: Konnte die Datei-nicht einlesen...\n");
+        printf("[!] ERROR: Couldn't read file...\n");
         exit(1);
     }
     return 0;

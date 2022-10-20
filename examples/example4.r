@@ -1,6 +1,6 @@
 /*
-	Das folgende Stackmaschinen-Programm rechnet die Potenzen
-	der Iterationen summiert auf.
+	The following stack machine calculates the power of its
+	iterations and sums them up.
 		{(i*i) + (i*i)... | solange i in {0..9}}
 */
 	push $0

@@ -1,13 +1,14 @@
 /*
-	Dieses Beispiel demonstriert den Links-Shift,
-	den Rechts-Shift, den NOT-Operator sowie den AND-Operator.
+	This examples demonstrates the binary left shift,
+	the binary right shift, the binary NOT operator as well as
+	the binary AND operator.
 */
-	// Links-Shift
-	push $1		// n
-	push $6 	// x
-	shl		// entspicht x * 2^n
+	// left shift
+	push $1				// n
+	push $6				// x
+	shl					// (x * 2^n)
 	print
-	// "Fehlerfall"
+	// "Error case"
 	push $0
 	push $6
 	shl
@@ -19,10 +20,10 @@
 	shl
 	print
 	
-	// Rechts-Shift
-	push $2		// n
-	push $100	// x
-	shr		// entspricht x / 2^n
+	// right shift
+	push $2				// n
+	push $100			// x
+	shr					// (x / 2^n)
 	print
 	
 	// NOT
@@ -32,7 +33,7 @@
 	push $1
 	not
 	print
-	push $5		// Nicht booleanscher Wert
+	push $5				// Non boolean value
 	not
 	print
 
@@ -47,8 +48,8 @@
 	print
 	jmp L2
 L1:
-	/* Sollte nie ausgeführt werden */
+	/* Should never get executed */
 	push $-1
 	print 
 L2:
-	/* ENDE */
+	/* END */

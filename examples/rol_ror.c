@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+	This C example is just for comparison when using the rotation operators.
+*/
+
 unsigned int rol(unsigned int x, unsigned int s) {
 	return (x << s) | (x >> (32 - s));
 }
@@ -10,7 +14,7 @@ unsigned int ror(unsigned int x, unsigned int s) {
 }
 
 int main(int argc, char **argv) {
-	// Deklarationen
+	// Declarations
 	unsigned int a, b;
 	a = 128;
 	b = 2;

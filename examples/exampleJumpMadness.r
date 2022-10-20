@@ -1,7 +1,5 @@
 /*
-	Dieses Beispiel springt einfach nur ein wenig hin und her.
-	Das könnte man später mal noch ein wenig besser
-	und weniger impulsiv gestalten (als "reversing"-Beispiel oder so).
+	This example demonstrates label jumping.
 */
 	push $10
 	push $2	

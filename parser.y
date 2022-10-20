@@ -14,7 +14,7 @@
         int instructionNr;
     } labels[1000];
     
-    // Funktionsprototypen
+    // Function prototypes
     void initLabels(void);
     void insertInstruction(int, int, int, int);
     void interpreter(void); 
@@ -23,14 +23,14 @@
     void regTest(int); 
     void labTest(int);
 
-    // Um den MacOS Linker zufrieden zu stellen
+    // To satisfy the MacOS linker
     void yyerror(const char*);
     int yylex(void);
 %}
 %union {
     int i;
 };
-/* OPERATOR-REIHENFOLGE ??? */
+/* OPERATOR-Precedence */
 %token PUSH POP ADD SUB MUL SHL DIV SHR ROL ROR NOT AND XOR MOD CMPL CMPG CMPLE CMPGE
 %token CMPEQ CMPNE PRINT JMP JFALSE L R 
 %token <i> NUMBER
@@ -101,9 +101,9 @@ void insertInstruction(int opcode, int regNr, int konstante, int label) {
     code[anzInstructions].label = label;
 }
 
-// TODO: UNTERSCHEIDUNG ZWISCHEN KONSTANTE UND FKONSTANTE ? ODER IMMER ALS FKONSTANTE RECHNEN ?
+// TODO: Distinction between KONSTANTE & FKONSTANTE ? Or always calculate using FKONSTANTE ?
 void interpreter(void) {
-    // Deklarationen
+    // Declarations
     int op1, op2;
 
     while( ip < anzInstructions ) {
@@ -116,7 +116,7 @@ void interpreter(void) {
             case 5: { push(pop() * pop()); ip++; break; }
             case 6: { op1 = pop(); op2 = pop();
                         if( op1 == 0 ) {
-                            printf("[!] Runtime-Fehler (Nahe Zeile %d): Division durch \"0\"\n", yylineno);
+                            printf("[!] Runtime error (near line %d): Divide by \"0\"\n", yylineno);
                             exit(4);
                         }
                         push((int) (op2 / op1)); ip++; break;
@@ -177,9 +177,9 @@ void interpreter(void) {
             case 22: { break; }
             case 23: { push(pop() & pop()); ip++; break; }
 	    case 24: { push(pop() ^ pop()); ip++; break; }
-            // NAND, OR ... EBENFALLS NOCH MITMACHEN
+            // TODO: NAND, OR ...
 	    case 25: { push(pop() % pop()); ip++; break; }
-            default: { printf("[!] Fehler im Interpreter (Nahe Zeile %d)\n", yylineno); exit(2); }
+            default: { printf("[!] Interpreter error (near line %d)\n", yylineno); exit(2); }
         }
     }
 }
@@ -207,7 +207,7 @@ int pop(void)
 void regTest(int r) 
 {
     if( (r < 0) || (r > 31) ) {
-        printf("[!] Register \"%d\" nicht verfügbar\n", r);
+        printf("[!] Register \"%d\" not available\n", r);
         exit(2);
     }
 }
@@ -215,7 +215,7 @@ void regTest(int r)
 void labTest(int l)
 {
     if( (l < 0) || (l > 999) ) {
-        printf("[!] Label \"%d\" ist außerhalb des gültigen Bereichs\n", l);
+        printf("[!] Label \"%d\" is not within the allowed range (0-999)\n", l);
         exit(3);
     }
 }

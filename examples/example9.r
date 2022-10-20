@@ -1,5 +1,6 @@
 /*
 	This example calculates the average of two given integers.
+	(But not in a obvious way :-D)
 	Date: 05/05/17
 	hm89
 */
